@@ -1,10 +1,10 @@
-import { ChangeEvent, FocusEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FocusEvent, FormEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 import { InputOfForm } from '@/components/InputOfForm';
 import { SignUpInput } from '@/types/signUp';
 import { validateSignUp } from '@/utils/validateSignUp';
-import axios from 'axios';
 
 export const SignUp = () => {
   const [inputValue, setInputValue] = useState<SignUpInput>({
@@ -122,7 +122,7 @@ export const SignUp = () => {
     });
   };
 
-  const requestSignUp = (e: SubmitEvent) => {
+  const requestSignUp = (e: FormEvent<HTMLFormElement>) => {
     console.log('here');
     e.preventDefault();
     if (!isAblueToSubmit) return;
