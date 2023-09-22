@@ -11,7 +11,7 @@ const validateEmail = (email: string) => {
 };
 
 const validateEmail2 = (email2: string, email: string) => {
-  return email === email2;
+  return validateEmail(email2) && email === email2;
 };
 
 const validatePassword = (password: string) => {
@@ -19,7 +19,7 @@ const validatePassword = (password: string) => {
 };
 
 const validatePassword2 = (password2: string, password: string) => {
-  return password === password2;
+  return validatePassword(password2) && password === password2;
 };
 
 export const validateSignUp: {
