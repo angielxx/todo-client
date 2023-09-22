@@ -3,21 +3,21 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 import { InputOfForm } from '@/components/InputOfForm';
-import { useSignUpInput } from '@/hooks/useSignUpInput';
+import { useAuthForm } from '@/hooks/useAuthForm';
 
 export const SignUp = () => {
   const {
     inputValue,
     inputMessage,
-    isAblueToSubmit,
+    isAblueToSignUp,
     onChangeHandler,
     onBlurHandler,
-  } = useSignUpInput();
+  } = useAuthForm();
 
   const requestSignUp = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!isAblueToSubmit) return;
+    if (!isAblueToSignUp) return;
 
     const { email, password } = inputValue;
 
@@ -36,7 +36,7 @@ export const SignUp = () => {
   return (
     <div>
       <h1>회원가입</h1>
-      <Form onSubmit={requestSignUp}>
+      <StyledForm onSubmit={requestSignUp}>
         <InputOfForm
           name="email"
           value={inputValue.email}
@@ -71,13 +71,13 @@ export const SignUp = () => {
           onChange={onChangeHandler}
           onBlur={onBlurHandler}
         />
-        <input type="submit" value="회원가입" disabled={!isAblueToSubmit} />
-      </Form>
+        <input type="submit" value="회원가입" disabled={!isAblueToSignUp} />
+      </StyledForm>
     </div>
   );
 };
 
-const Form = styled.form`
+export const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 16px;
