@@ -1,4 +1,4 @@
-import { SignupInput } from '@/types/auth';
+import { SignUpInput } from '@/types/signUp';
 
 const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
@@ -22,8 +22,8 @@ const validatePassword2 = (password2: string, password: string) => {
   return password === password2;
 };
 
-export const validateSignup: {
-  [K in keyof SignupInput]: ValidatorFunctions[K];
+export const validateSignUp: {
+  [K in keyof SignUpInput]: ValidatorFunctions[K];
 } = {
   email: validateEmail,
   email2: validateEmail2,

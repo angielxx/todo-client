@@ -1,42 +1,64 @@
-import { ChangeEvent, FocusEvent, useState } from 'react';
+import { ChangeEvent, FocusEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { InputOfForm } from '@/components/InputOfForm';
-import { SignupInput } from '@/types/auth';
-import { validateSignup } from '@/utils/validateSignup';
+import { SignUpInput } from '@/types/signUp';
+import { validateSignUp } from '@/utils/validateSignUp';
+import axios from 'axios';
 
 export const SignUp = () => {
-  const [inputValue, setInputValue] = useState<SignupInput>({
+  const [inputValue, setInputValue] = useState<SignUpInput>({
     email: '',
     email2: '',
     password: '',
     password2: '',
   });
 
-  const [inputIsBlur, setInputIsBlur] = useState({
+  const [inputIsBlur, setInputIsBlur] = useState<{
+    [K in keyof SignUpInput]: boolean;
+  }>({
     email: false,
     email2: false,
     password: false,
     password2: false,
   });
 
-  const [inputIsValid, setInputIsValid] = useState({
+  const [inputIsValid, setInputIsValid] = useState<{
+    [K in keyof SignUpInput]: boolean;
+  }>({
     email: false,
     email2: false,
     password: false,
     password2: false,
   });
 
-  const [inputMessage, setInputMessage] = useState({
+  const [inputMessage, setInputMessage] = useState<SignUpInput>({
     email: '',
     email2: '',
     password: '',
     password2: '',
   });
+
+  const [isAblueToSubmit, setIsAbleToSubmit] = useState<boolean>(false);
+
+  useEffect(() => {
+    const isOkay =
+      inputIsValid.email &&
+      inputIsValid.email2 &&
+      inputIsValid.password &&
+      inputIsValid.password2;
+
+    setIsAbleToSubmit(isOkay);
+  }, [
+    inputIsValid.email,
+    inputIsValid.email2,
+    inputIsValid.password,
+    inputIsValid.password2,
+  ]);
 
   const changeInputValue = (e: ChangeEvent<HTMLInputElement>) => {
-    const inputName = e.target.name as keyof SignupInput;
-    const value = e.target.value;
+    const inputName = e.target.name as keyof SignUpInput;
+    const value = e.target.value.trim();
 
     setInputValue((prev) => {
       return { ...prev, [inputName]: value };
@@ -45,17 +67,17 @@ export const SignUp = () => {
     let isValid: boolean;
     switch (inputName) {
       case 'email':
-        isValid = validateSignup.email(value);
+        isValid = validateSignUp.email(value);
         break;
       case 'email2':
-        isValid = validateSignup.email(value) && value === inputValue.email;
+        isValid = validateSignUp.email(value) && value === inputValue.email;
         break;
       case 'password':
-        isValid = validateSignup.password(value);
+        isValid = validateSignUp.password(value);
         break;
       case 'password2':
         isValid =
-          validateSignup.password(value) && value === inputValue.password;
+          validateSignUp.password(value) && value === inputValue.password;
         break;
       default:
         break;
@@ -80,7 +102,7 @@ export const SignUp = () => {
   };
 
   const changeInputIsBlur = (e: FocusEvent<HTMLInputElement>) => {
-    const inputName = e.target.name as keyof SignupInput;
+    const inputName = e.target.name as keyof SignUpInput;
 
     setInputIsBlur((prev) => {
       return { ...prev, [inputName]: true };
@@ -93,16 +115,33 @@ export const SignUp = () => {
         ...prev,
         [inputName]: isEmpty
           ? EMPTY_MESSAGE[inputName]
+          : inputIsValid[inputName]
+          ? 'okay'
           : ERROR_MESSAGE[inputName],
       };
     });
   };
 
+  const requestSignUp = (e: SubmitEvent) => {
+    console.log('here');
+    e.preventDefault();
+    if (!isAblueToSubmit) return;
+
+    const { email, password } = inputValue;
+
+    axios
+      .create({ baseURL: import.meta.env.VITE_BASE_URL })
+      .post('/auth/signup', {
+        email,
+        password,
+      });
+  };
+
   const ERROR_MESSAGE = {
     email: '올바른 이메일 형식이 아닙니다.',
-    email2: '이메일이 일치하지 않습니다.',
+    email2: '올바른 이메일 형식이 아니거나 일치하지 않습니다.',
     password: '올바른 비밀번호 형식이 아닙니다.',
-    password2: '비밀번호가 일치하지 않습니다.',
+    password2: '올바른 비밀번호 형식이 아니거나가 일치하지 않습니다.',
   };
 
   const EMPTY_MESSAGE = {
@@ -115,37 +154,42 @@ export const SignUp = () => {
   return (
     <div>
       <h1>회원가입</h1>
-      <Form>
+      <Form onSubmit={requestSignUp}>
         <InputOfForm
           name="email"
+          value={inputValue.email}
           message={inputMessage.email}
           placeholder="이메일"
-          required
           onChange={changeInputValue}
           onBlur={changeInputIsBlur}
         />
         <InputOfForm
           name="email2"
+          value={inputValue.email2}
           message={inputMessage.email2}
           placeholder="이메일 확인"
           onChange={changeInputValue}
           onBlur={changeInputIsBlur}
         />
         <InputOfForm
+          type="password"
           name="password"
+          value={inputValue.password}
           message={inputMessage.password}
           placeholder="비밀번호"
           onChange={changeInputValue}
           onBlur={changeInputIsBlur}
         />
         <InputOfForm
+          type="password"
           name="password2"
+          value={inputValue.password2}
           message={inputMessage.password2}
           placeholder="비밀번호 확인"
           onChange={changeInputValue}
           onBlur={changeInputIsBlur}
         />
-        <input type="submit" value="회원가입" disabled={false} />
+        <input type="submit" value="회원가입" disabled={!isAblueToSubmit} />
       </Form>
     </div>
   );

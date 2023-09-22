@@ -12,7 +12,7 @@ export const InputOfForm = ({ label, message, ...rest }: Props) => {
   return (
     <Container>
       {label && <Label>{label}</Label>}
-      <Input {...rest} />
+      <Input type="text" {...rest} />
       <Message>{message}</Message>
     </Container>
   );
