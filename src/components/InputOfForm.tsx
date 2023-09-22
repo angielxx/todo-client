@@ -4,16 +4,16 @@ import styled from 'styled-components';
 import { Input } from './Input';
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string;
+  label?: string;
   message: string;
 }
 
 export const InputOfForm = ({ label, message, ...rest }: Props) => {
   return (
     <Container>
-      <Label>{label}</Label>
+      {label && <Label>{label}</Label>}
       <Input {...rest} />
-      <p>{message}</p>
+      <Message>{message}</Message>
     </Container>
   );
 };
@@ -24,3 +24,7 @@ const Container = styled.div`
 `;
 
 const Label = styled.label``;
+
+const Message = styled.p`
+  font-size: 12px;
+`;

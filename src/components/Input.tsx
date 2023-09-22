@@ -21,13 +21,15 @@ const StyledInput = styled.input<{
   ${({ $size }) => SIZE_VARIANTS[$size]}
 `;
 
-type VariantsType = 'default' | 'disabled';
+type VariantsType = 'default' | 'active' | 'inValid' | 'valid';
 
 type SizeType = 'small' | 'medium' | 'large';
 
 const TYPE_VARIANTS: { [key in VariantsType]: RuleSet } = {
   default: css``,
-  disabled: css``,
+  active: css``,
+  inValid: css``,
+  valid: css``,
 };
 
 const SIZE_VARIANTS: { [key in SizeType]: RuleSet } = {
