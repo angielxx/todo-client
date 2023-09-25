@@ -2,17 +2,15 @@ import { AddTodoBtn } from '@/components/Todo';
 import { AddTodoForm } from '@/components/Todo/AddTodoForm';
 import { DateTitle } from '@/components/Todo/DateTitle';
 import { WeeklyCalendar } from '@/components/Todo/WeeklyCalendar';
-import { useState } from 'react';
+import { useTodoStore } from '@/stores/useTodoStore';
 
 export const Todo = () => {
-  const [isFormHidden, setIsFormHidden] = useState<boolean>(true);
-
-  const showForm = () => setIsFormHidden(false);
+  const { showTodoForm, showForm } = useTodoStore();
 
   return (
     <div>
-      {!isFormHidden && <AddTodoForm />}
-      {isFormHidden && <AddTodoBtn onClick={showForm} />}
+      {showTodoForm && <AddTodoForm />}
+      {!showTodoForm && <AddTodoBtn onClick={showForm} />}
       <DateTitle />
       <WeeklyCalendar />
     </div>

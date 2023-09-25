@@ -1,15 +1,16 @@
 import { ReactElement, createContext, useState } from 'react';
 
 import { TodoService } from '@/apis/TodoService';
-import { TodoType } from '@/types/todoData';
+import { CreateTodoRequestData, TodoData } from '@/types/todoData';
 
 type TodoDispatch = {
   getTodos: () => void;
-  saveTodos: (todos: TodoType[]) => void;
+  createTodo: (data: CreateTodoRequestData) => void;
+  saveTodos: (todos: TodoData[]) => void;
 };
 
 type TodoState = {
-  todos: TodoType[];
+  todos: TodoData[];
 };
 
 export const TodoDispatchContext = createContext<TodoDispatch | null>(null);
@@ -21,9 +22,9 @@ type TodoProps = {
 };
 
 export const TodoProvider = ({ children, todoService }: TodoProps) => {
-  const [todos, setTodos] = useState<TodoType[]>([]);
+  const [todos, setTodos] = useState<TodoData[]>([]);
 
-  const saveTodos = (todos: TodoType[]) => setTodos(todos);
+  const saveTodos = (todos: TodoData[]) => setTodos(todos);
 
   const state: TodoState = {
     todos,
@@ -31,6 +32,7 @@ export const TodoProvider = ({ children, todoService }: TodoProps) => {
 
   const dispatch: TodoDispatch = {
     getTodos: todoService.getTodo.bind(todoService),
+    createTodo: todoService.createTodo.bind(todoService),
     saveTodos,
   };
 

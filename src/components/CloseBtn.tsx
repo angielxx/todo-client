@@ -20,6 +20,8 @@ const ClostBtnWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  right: 0;
 
   svg {
     fill: darkblue;
