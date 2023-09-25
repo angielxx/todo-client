@@ -23,9 +23,15 @@
     "baseUrl": "./src",
     "paths": {
       "@/*": ["./*"],
+      "@apis/*": ["apis/*"],
       "@components/*": ["components/*"],
+      "@context/*": ["context/*"],
+      "@guards/*": ["guards/*"],
+      "@hooks/*": ["hooks/*"],
       "@pages/*": ["pages/*"],
-      "@routes/*": ["routes/*"]
+      "@routes/*": ["routes/*"],
+      "@types/*": ["types/*"],
+      "@utils/*": ["utils/*"]
     }
   },
 
