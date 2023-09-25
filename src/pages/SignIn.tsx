@@ -1,6 +1,10 @@
-import { InputOfForm } from '@/components/InputOfForm';
-import { useAuthForm } from '@/hooks/useAuthForm';
+import { useNavigate } from 'react-router';
+
+import { InputOfForm } from '@/components';
 import { StyledForm } from '.';
+import { useAuthContext, useAuthForm } from '@/hooks';
+import { FormEvent } from 'react';
+import { CustomError } from '@/types/error';
 
 export const SignIn = () => {
   const {
@@ -11,7 +15,43 @@ export const SignIn = () => {
     onBlurHandler,
   } = useAuthForm();
 
-  const requestSignIn = () => {};
+  const {
+    dispatch: { signin, onLoginSuccess },
+  } = useAuthContext();
+
+  const navigate = useNavigate();
+
+  const requestSignIn = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!isAblueToSignIn) return;
+
+    try {
+      const { email, password } = inputValue;
+      const {
+        data: { access_token },
+      } = await signin(email, password);
+
+      alert('로그인에 성공했습니다.');
+
+      onLoginSuccess(access_token);
+
+      goToTodo();
+    } catch (err: unknown) {
+      if (err instanceof CustomError) {
+        const data = err.response?.data as { message: string };
+        const status = err.response?.status as number;
+
+        if (400 <= status && status < 500) {
+          alert(data.message);
+        } else {
+          alert('잠시 후 다시 시도해주세요.');
+        }
+      }
+    }
+  };
+
+  const goToTodo = () => navigate('/todo');
 
   return (
     <div>

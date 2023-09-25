@@ -76,7 +76,6 @@ export const useAuthForm = () => {
     isEmpty: boolean
   ) => {
     setInputMessage((prev) => {
-      console.log(isEmpty);
       return {
         ...prev,
         [inputName]: isValid

@@ -1,9 +1,10 @@
 import { FormEvent } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
+import { useNavigate } from 'react-router';
 
-import { InputOfForm } from '@/components/InputOfForm';
-import { useAuthForm } from '@/hooks/useAuthForm';
+import { InputOfForm } from '@/components';
+import { useAuthForm, useAuthContext } from '@/hooks';
+import { AxiosError } from 'axios';
 
 export const SignUp = () => {
   const {
@@ -14,24 +15,34 @@ export const SignUp = () => {
     onBlurHandler,
   } = useAuthForm();
 
-  const requestSignUp = (e: FormEvent<HTMLFormElement>) => {
+  const {
+    dispatch: { signup },
+  } = useAuthContext();
+
+  const navigate = useNavigate();
+
+  const requestSignUp = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!isAblueToSignUp) return;
 
-    const { email, password } = inputValue;
-
     try {
-      axios
-        .create({ baseURL: import.meta.env.VITE_BASE_URL })
-        .post('/auth/signup', {
-          email,
-          password,
-        });
-    } catch (err) {
-      console.error(err);
+      const { email, password } = inputValue;
+      await signup(email, password);
+
+      alert('회원가입에 성공했습니다.');
+      goToSignin();
+    } catch (err: AxiosError) {
+      const { data, status } = err.response;
+      if (400 <= status && status < 500) {
+        alert(data.message);
+      } else {
+        alert('잠시 후 다시 시도해주세요.');
+      }
     }
   };
+
+  const goToSignin = () => navigate('/signin');
 
   return (
     <div>
