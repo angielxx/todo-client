@@ -17,7 +17,7 @@ const EMPTY_MESSAGE = {
   password2: '비밀번호를 한 번 더 입력해주세요.',
 };
 
-export const useSignUpInput = () => {
+export const useAuthForm = () => {
   const [inputValue, setInputValue] = useState<SignUpInput>({
     email: '',
     email2: '',
@@ -50,15 +50,19 @@ export const useSignUpInput = () => {
     password2: '',
   });
 
-  const [isAblueToSubmit, setIsAbleToSubmit] = useState<boolean>(false);
+  const [isAblueToSignUp, setIsAbleToSignUp] = useState<boolean>(false);
+  const [isAblueToSignIn, setIsAbleToSignIn] = useState<boolean>(false);
+
+  inputIsBlur; // 임시방편
 
   useEffect(() => {
-    setIsAbleToSubmit(
+    setIsAbleToSignUp(
       inputIsValid.email &&
         inputIsValid.email2 &&
         inputIsValid.password &&
         inputIsValid.password2
     );
+    setIsAbleToSignIn(inputIsValid.email && inputIsValid.password);
   }, [
     inputIsValid.email,
     inputIsValid.email2,
@@ -115,7 +119,8 @@ export const useSignUpInput = () => {
   return {
     inputValue,
     inputMessage,
-    isAblueToSubmit,
+    isAblueToSignUp,
+    isAblueToSignIn,
     onChangeHandler,
     onBlurHandler,
   };
