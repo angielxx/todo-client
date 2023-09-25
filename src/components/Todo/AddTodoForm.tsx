@@ -3,15 +3,36 @@ import styled from 'styled-components';
 import { useTodoStore } from '@/stores/useTodoStore';
 import { CloseBtn } from '../CloseBtn';
 import { Input } from '..';
-import { useTodoForm } from '@/hooks/useTodoForm';
+import { useTodoContext, useTodoForm } from '@/hooks';
 import { getToday } from '@/utils/getToday';
+import { FormEvent } from 'react';
 
 export const AddTodoForm = () => {
+  const {
+    dispatch: { createTodo },
+  } = useTodoContext();
+
   const { hideForm } = useTodoStore();
 
-  const { inputValue, date, chooseDate, onChangeHandler } = useTodoForm();
+  const { title, date, chooseDate, onChangeHandler, resetForm } = useTodoForm();
 
-  const requestCreateTodo = () => {};
+  const requestCreateTodo = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const dateToISOstring = date.toISOString();
+      const response = await createTodo({
+        title,
+        date: dateToISOstring,
+        categoryId: null,
+      });
+
+      resetForm();
+      hideForm();
+    } catch (err) {
+      alert('잠시 후 다시 시도해주세요.');
+    }
+  };
 
   const today = getToday();
   const tomorrow = new Date(getToday().getTime() + 1000 * 60 * 60 * 24);
@@ -24,7 +45,7 @@ export const AddTodoForm = () => {
       </div>
       <form onSubmit={requestCreateTodo}>
         <Input
-          value={inputValue}
+          value={title}
           placeholder="할 일 내용"
           onChange={onChangeHandler}
         />
@@ -36,7 +57,7 @@ export const AddTodoForm = () => {
         <div>
           <p>카테고리</p>
         </div>
-        <div>입력 완료</div>
+        <input type="submit" value="입력 완료" />
       </form>
     </FormWrapper>
   );
