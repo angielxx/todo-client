@@ -17,6 +17,8 @@ const StyledInput = styled.input<{
   $variant: VariantsType;
   $size: SizeType;
 }>`
+  width: 100%;
+
   ${({ $variant }) => TYPE_VARIANTS[$variant]}
   ${({ $size }) => SIZE_VARIANTS[$size]}
 `;
