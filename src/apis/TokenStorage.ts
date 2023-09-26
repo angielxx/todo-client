@@ -7,10 +7,11 @@ export class TokenStorage {
 
   save(token: string) {
     this.token = token;
+    localStorage.setItem('token', token);
   }
 
   get() {
-    return this.token;
+    return localStorage.getItem('token');
   }
 
   remove() {

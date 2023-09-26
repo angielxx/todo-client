@@ -1,10 +1,7 @@
 export interface TodoData {
-  id: number;
+  todoId: number;
   title: string;
-}
-
-export interface CreateTodoRequestData {
-  title: string;
-  date: string; // ISOString
+  date: string;
+  isCompleted: boolean;
   categoryId: number | null;
 }

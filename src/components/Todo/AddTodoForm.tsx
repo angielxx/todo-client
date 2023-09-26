@@ -1,3 +1,5 @@
+import { FormEvent } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 import styled from 'styled-components';
 
 import { useTodoStore } from '@/stores/useTodoStore';
@@ -5,7 +7,6 @@ import { CloseBtn } from '../CloseBtn';
 import { Input } from '..';
 import { useTodoContext, useTodoForm } from '@/hooks';
 import { getToday } from '@/utils/getToday';
-import { FormEvent } from 'react';
 
 export const AddTodoForm = () => {
   const {
@@ -16,19 +17,24 @@ export const AddTodoForm = () => {
 
   const { title, date, chooseDate, onChangeHandler, resetForm } = useTodoForm();
 
+  const { mutate: createTodoMutation } = useMutation(createTodo, {
+    onSuccess: (data) => {
+      console.log(data);
+      resetForm();
+      hideForm();
+    },
+  });
+
   const requestCreateTodo = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      const dateToISOstring = date.toISOString();
-      const response = await createTodo({
+      createTodoMutation({
         title,
-        date: dateToISOstring,
+        date,
         categoryId: null,
+        isCompleted: false,
       });
-
-      resetForm();
-      hideForm();
     } catch (err) {
       alert('잠시 후 다시 시도해주세요.');
     }

@@ -1,13 +1,14 @@
+import { convertDateToString } from '@/utils/convertDateToString';
 import { getToday } from '@/utils/getToday';
 import { ChangeEvent, useState } from 'react';
 
-const today = getToday();
+const today = convertDateToString(getToday());
 
 export const useTodoForm = () => {
   const [title, setTitle] = useState<string>('');
-  const [date, setDate] = useState<Date>(today);
+  const [date, setDate] = useState<string>(today); // 'yyyy-mm-dd'
 
-  const chooseDate = (date: Date) => setDate(date);
+  const chooseDate = (date: Date) => setDate(convertDateToString(date));
 
   const resetForm = () => {
     setTitle('');
