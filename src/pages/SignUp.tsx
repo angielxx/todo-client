@@ -1,12 +1,12 @@
-import { FormEvent, MouseEventHandler } from 'react';
+import { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 
 import { InputOfForm, PageTitle } from '@/components';
 import { useAuthForm, useAuthContext } from '@/hooks';
-import { AxiosError } from 'axios';
 import { Button } from '@/components/Button';
 import { Link } from 'react-router-dom';
+import { CustomError } from '@/types/error';
 
 export const SignUp = () => {
   const {
@@ -36,12 +36,16 @@ export const SignUp = () => {
       alert('회원가입에 성공했습니다.');
 
       goToSignin();
-    } catch (err: AxiosError) {
-      const { data, status } = err.response;
-      if (400 <= status && status < 500) {
-        alert(data.message);
-      } else {
-        alert('잠시 후 다시 시도해주세요.');
+    } catch (err: unknown) {
+      if (err instanceof CustomError) {
+        const data = err.response?.data as { message: string };
+        const status = err.response?.status as number;
+
+        if (400 <= status && status < 500) {
+          alert(data.message);
+        } else {
+          alert('잠시 후 다시 시도해주세요.');
+        }
       }
     }
   };
@@ -102,7 +106,7 @@ export const SignUp = () => {
           onClick={requestSignUp}
         />
         <GuidMsg>
-          이미 게정이 있으신가요? <Link to="/signin">로그인 하기</Link>
+          이미 게정이 있으신가요? <Link to="/signin">로그인하기</Link>
         </GuidMsg>
       </BottonWrapper>
     </PageWrapper>
@@ -116,7 +120,7 @@ export const StyledForm = styled.form`
   width: 100%;
 `;
 
-const GuidMsg = styled.p`
+export const GuidMsg = styled.p`
   font-size: 14px;
   color: ${({ theme }) => theme.colors.textMain};
   font-weight: 400;
@@ -128,7 +132,7 @@ const GuidMsg = styled.p`
   }
 `;
 
-const PageWrapper = styled.div`
+export const PageWrapper = styled.div`
   padding: 24px;
   box-sizing: border-box;
   padding-top: 20vh;
@@ -151,7 +155,7 @@ const PageWrapper = styled.div`
   }
 `;
 
-const BottonWrapper = styled.div`
+export const BottonWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;

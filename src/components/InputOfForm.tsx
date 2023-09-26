@@ -28,6 +28,10 @@ const Label = styled.label``;
 
 const Message = styled.p<{ $variant: InputVariantsType }>`
   font-size: 12px;
+  height: 12px;
+  width: 100%;
+  text-align: right;
+  margin-top: 8px;
 
   ${({ $variant }) => TYPE_VARIANTS[$variant]}
 `;

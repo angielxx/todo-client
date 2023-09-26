@@ -35,6 +35,11 @@ const StyledInput = styled.input<{
   border-radius: 8px;
   padding-left: 8px;
 
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.textDisabled};
+    font-size: 14px;
+  }
+
   ${({ $variant }) => TYPE_VARIANTS[$variant]}
   ${({ $size }) => SIZE_VARIANTS[$size]}
 `;
@@ -44,12 +49,7 @@ export type InputVariantsType = 'default' | 'active' | 'inValid' | 'valid';
 type SizeType = 'small' | 'medium' | 'large';
 
 const TYPE_VARIANTS: { [key in InputVariantsType]: RuleSet } = {
-  default: css`
-    &::placeholder {
-      color: ${({ theme }) => theme.colors.textDisabled};
-      font-size: 14px;
-    }
-  `,
+  default: css``,
   active: css``,
   inValid: css`
     border: 1px solid;
