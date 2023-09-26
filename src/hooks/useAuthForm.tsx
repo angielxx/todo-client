@@ -2,6 +2,7 @@ import { ChangeEvent, FocusEvent, useEffect, useState } from 'react';
 
 import { SignUpInput } from '@/types/signUp';
 import { validateSignUp } from '@/utils/validateSignUp';
+import { InputVariantsType } from '@/components';
 
 const ERROR_MESSAGE = {
   email: '올바른 이메일 형식이 아닙니다.',
@@ -50,6 +51,15 @@ export const useAuthForm = () => {
     password2: '',
   });
 
+  const [inputVariants, setInputVariants] = useState<{
+    [K in keyof SignUpInput]: InputVariantsType;
+  }>({
+    email: 'default',
+    email2: 'default',
+    password: 'default',
+    password2: 'default',
+  });
+
   const [isAblueToSignUp, setIsAbleToSignUp] = useState<boolean>(false);
   const [isAblueToSignIn, setIsAbleToSignIn] = useState<boolean>(false);
 
@@ -83,6 +93,13 @@ export const useAuthForm = () => {
           : isEmpty
           ? EMPTY_MESSAGE[inputName]
           : ERROR_MESSAGE[inputName],
+      };
+    });
+
+    setInputVariants((prev) => {
+      return {
+        ...prev,
+        [inputName]: isValid ? 'valid' : 'inValid',
       };
     });
   };
@@ -120,6 +137,7 @@ export const useAuthForm = () => {
     inputMessage,
     isAblueToSignUp,
     isAblueToSignIn,
+    inputVariants,
     onChangeHandler,
     onBlurHandler,
   };
