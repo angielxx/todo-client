@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { ThemeProvider } from 'styled-components';
 
 import router from '@routes/router';
 import { HttpClient, AuthService, TokenStorage } from '@/apis';
@@ -10,6 +11,7 @@ import { TodoProvider } from './context/todoProvider';
 import { TodoService } from './apis/TodoService';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import GlobalStyle from './styles/GlobalStyle';
+import theme from './styles/theme';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -32,11 +34,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
       <GlobalStyle />
-      <AuthProvider authService={authService} tokenStorage={tokenStorage}>
-        <TodoProvider todoService={todoService}>
-          <RouterProvider router={router} />
-        </TodoProvider>
-      </AuthProvider>
+      <ThemeProvider theme={theme}>
+        <AuthProvider authService={authService} tokenStorage={tokenStorage}>
+          <TodoProvider todoService={todoService}>
+            <RouterProvider router={router} />
+          </TodoProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   </React.StrictMode>
 );
