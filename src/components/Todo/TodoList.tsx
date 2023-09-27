@@ -1,14 +1,12 @@
 import { useQuery } from 'react-query';
+import styled from 'styled-components';
 
 import { useTodoContext } from '@/hooks';
 import { useCalendarStore } from '@/stores/useCalendarStore';
 import { TodoListItem } from './TodoListItem';
-import styled from 'styled-components';
 
 export const TodoList = () => {
-  const { selectedDate } = useCalendarStore();
-
-  const date = selectedDate.toISOString().slice(0, 10);
+  const { selectedDate: date } = useCalendarStore();
 
   const {
     dispatch: { getTodoByDate },

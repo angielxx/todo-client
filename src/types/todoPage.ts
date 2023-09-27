@@ -5,5 +5,3 @@ export type DateInfo = {
 };
 
 export type DaysOfWeek = 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun';
-
-export type WeekInfo = Date[];

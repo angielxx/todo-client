@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 export const DateTitle = () => {
   const { selectedDate } = useCalendarStore();
-  const m = selectedDate.getMonth() + 1;
-  const d = selectedDate.getDate();
+  const m = selectedDate.slice(5, 7);
+  const d = selectedDate.slice(8, 10);
 
   return <StyledTitle>{`${m}월 ${d}일`}</StyledTitle>;
 };
