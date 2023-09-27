@@ -2,7 +2,7 @@ import { useCalendarStore } from '@/stores/useCalendarStore';
 import styled from 'styled-components';
 
 interface Props {
-  date: Date;
+  date: string; // 'yyyy-mm-dd'
   isSelected: boolean;
 }
 
@@ -13,7 +13,7 @@ export const WeeklyCalendarItem = ({ date, isSelected }: Props) => {
 
   return (
     <ItemWrapper $isSelected={isSelected} onClick={selectThisDate}>
-      <p className="date">{date.getDate()}</p>
+      <p className="date">{date.slice(8, 10)}</p>
     </ItemWrapper>
   );
 };

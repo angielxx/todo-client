@@ -18,6 +18,11 @@ const queryClient = new QueryClient({
     queries: {
       staleTime: 1000 * 60 * 60,
       cacheTime: 1000 * 60 * 5,
+      retry: false,
+      suspense: true,
+      useErrorBoundary: true,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
     },
   },
 });

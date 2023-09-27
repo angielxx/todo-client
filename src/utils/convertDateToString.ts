@@ -1,3 +1,3 @@
 export function convertDateToString(date: Date) {
-  return date.toISOString().slice();
+  return date.toISOString().slice(0, 10);
 }
