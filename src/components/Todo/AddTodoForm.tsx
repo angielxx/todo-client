@@ -1,47 +1,40 @@
-import { FormEvent } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
+import { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 
 import { useTodoStore } from '@/stores/useTodoStore';
 import { CloseBtn } from '../CloseBtn';
-import { Input } from '..';
-import { useTodoContext, useTodoForm } from '@/hooks';
-import { getToday } from '@/utils/getToday';
+import { DateBtn, DateCalendarBtn, Input } from '..';
+import { useTodoForm } from '@/hooks';
+import { Button } from '../Button';
+import { useTodoQuery } from '@/hooks/useTodoQuery';
 
 export const AddTodoForm = () => {
-  const {
-    dispatch: { createTodo },
-  } = useTodoContext();
-
   const { hideForm } = useTodoStore();
 
-  const { title, date, chooseDate, onChangeHandler, resetForm } = useTodoForm();
+  const {
+    title,
+    date,
+    selectedDateBtnType,
+    isAbleToSubmit,
+    chooseDate,
+    onChangeHandler,
+    resetForm,
+  } = useTodoForm();
 
-  const { mutate: createTodoMutation } = useMutation(createTodo, {
-    onSuccess: (data) => {
-      console.log(data);
-      resetForm();
-      hideForm();
-    },
-  });
+  const { createTodoMutation } = useTodoQuery();
 
-  const requestCreateTodo = async (e: FormEvent<HTMLFormElement>) => {
+  const requestCreateTodo: MouseEventHandler = async (e) => {
     e.preventDefault();
 
-    try {
-      createTodoMutation({
-        title,
-        date,
-        categoryId: null,
-        isCompleted: false,
-      });
-    } catch (err) {
-      alert('잠시 후 다시 시도해주세요.');
-    }
+    createTodoMutation({
+      title,
+      date,
+      categoryId: null,
+      isCompleted: false,
+    });
+    resetForm();
+    hideForm();
   };
-
-  const today = getToday();
-  const tomorrow = new Date(getToday().getTime() + 1000 * 60 * 60 * 24);
 
   return (
     <FormWrapper>
@@ -49,22 +42,35 @@ export const AddTodoForm = () => {
         <p>할 일 추가</p>
         <CloseBtn onClick={hideForm} />
       </div>
-      <form onSubmit={requestCreateTodo}>
+      <StyledForm>
         <Input
           value={title}
           placeholder="할 일 내용"
           onChange={onChangeHandler}
         />
-        <div>
+        <FlexWrapper>
           <p>날짜</p>
-          <div onClick={() => chooseDate(today)}>오늘</div>
-          <div onClick={() => chooseDate(tomorrow)}>내일</div>
-        </div>
-        <div>
+          <DateBtn
+            label="오늘"
+            isSelected={selectedDateBtnType === 'today'}
+            onClick={() => chooseDate('today')}
+          />
+          <DateBtn
+            label="내일"
+            isSelected={selectedDateBtnType === 'tomorrow'}
+            onClick={() => chooseDate('tomorrow')}
+          />
+          <DateCalendarBtn isSelected={selectedDateBtnType === 'calendar'} />
+        </FlexWrapper>
+        <FlexWrapper>
           <p>카테고리</p>
-        </div>
-        <input type="submit" value="입력 완료" />
-      </form>
+        </FlexWrapper>
+      </StyledForm>
+      <Button
+        label="입력완료"
+        variant={isAbleToSubmit ? 'default' : 'disabled'}
+        onClick={requestCreateTodo}
+      />
     </FormWrapper>
   );
 };
@@ -73,14 +79,42 @@ const FormWrapper = styled.div`
   width: 100vw;
   position: absolute;
   bottom: 0;
+  left: 0;
   border: 1px solid red;
   padding: 24px;
   box-sizing: border-box;
+  border-top-right-radius: 12px;
+  border-top-left-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background-color: white;
 
   .title {
     display: flex;
     width: 100%;
     justify-content: center;
     align-items: center;
+
+    p {
+      font-size: 16px;
+      font-weight: 700;
+    }
+  }
+`;
+
+const StyledForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+const FlexWrapper = styled.div`
+  display: flex;
+  gap: 12px;
+  align-items: center;
+
+  p {
+    width: 60px;
   }
 `;

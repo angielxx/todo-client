@@ -38,12 +38,13 @@ const WeekWrapper = styled.div`
   flex-direction: column;
   width: 100%;
   justify-content: space-between;
-  padding: 24px;
   box-sizing: border-box;
+  margin-bottom: 16px;
 
   .day {
     width: 32px;
     height: 32px;
+    display: flex;
     justify-content: center;
     align-items: center;
   }

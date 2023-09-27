@@ -2,13 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { ThemeProvider } from 'styled-components';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import router from '@routes/router';
 import { HttpClient, AuthService, TokenStorage } from '@/apis';
 import { AuthProvider } from '@/context/authProvider';
 import { TodoProvider } from './context/todoProvider';
 import { TodoService } from './apis/TodoService';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import GlobalStyle from './styles/GlobalStyle';
+import theme from './styles/theme';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,17 +29,18 @@ const httpClient = new HttpClient(import.meta.env.VITE_BASE_URL, tokenStorage);
 const authService = new AuthService(httpClient);
 const todoService = new TodoService(httpClient);
 
-console.log(tokenStorage.get());
-
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
-      <AuthProvider authService={authService} tokenStorage={tokenStorage}>
-        <TodoProvider todoService={todoService}>
-          <RouterProvider router={router} />
-        </TodoProvider>
-      </AuthProvider>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <AuthProvider authService={authService} tokenStorage={tokenStorage}>
+          <TodoProvider todoService={todoService}>
+            <RouterProvider router={router} />
+          </TodoProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   </React.StrictMode>
 );

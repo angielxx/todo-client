@@ -1,8 +1,14 @@
 import styled from 'styled-components';
 
-export const AddTodoBtn = ({ ...rest }) => {
+import { useTodoStore } from '@/stores/useTodoStore';
+
+export const AddTodoBtn = () => {
+  const { showForm } = useTodoStore();
+
+  const showTodoForm = () => showForm();
+
   return (
-    <BtnWrapper {...rest}>
+    <BtnWrapper onClick={showTodoForm}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="1em"
@@ -18,7 +24,7 @@ const BtnWrapper = styled.div`
   width: 48px;
   height: 48px;
   position: absolute;
-  background-color: aliceblue;
+  background-color: ${({ theme }) => theme.colors.main};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,4 +32,8 @@ const BtnWrapper = styled.div`
   cursor: pointer;
   bottom: 24px;
   right: 24px;
+
+  svg {
+    fill: white;
+  }
 `;

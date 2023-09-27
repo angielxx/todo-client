@@ -1,16 +1,19 @@
 import { useNavigate } from 'react-router';
 
-import { InputOfForm } from '@/components';
-import { StyledForm } from '.';
+import { InputOfForm, PageTitle } from '@/components';
+import { BottonWrapper, GuidMsg, PageWrapper, StyledForm } from '.';
 import { useAuthContext, useAuthForm } from '@/hooks';
-import { FormEvent } from 'react';
+import { MouseEventHandler } from 'react';
 import { CustomError } from '@/types/error';
+import { Button } from '@/components/Button';
+import { Link } from 'react-router-dom';
 
 export const SignIn = () => {
   const {
     inputValue,
     inputMessage,
     isAblueToSignIn,
+    inputVariants,
     onChangeHandler,
     onBlurHandler,
   } = useAuthForm();
@@ -21,7 +24,7 @@ export const SignIn = () => {
 
   const navigate = useNavigate();
 
-  const requestSignIn = async (e: FormEvent<HTMLFormElement>) => {
+  const requestSignIn: MouseEventHandler = async (e) => {
     e.preventDefault();
 
     if (!isAblueToSignIn) return;
@@ -54,28 +57,41 @@ export const SignIn = () => {
   const goToTodo = () => navigate('/todo');
 
   return (
-    <div>
-      <h1>로그인</h1>
-      <StyledForm onSubmit={requestSignIn}>
-        <InputOfForm
-          name="email"
-          value={inputValue.email}
-          message={inputMessage.email}
-          placeholder="이메일"
-          onChange={onChangeHandler}
-          onBlur={onBlurHandler}
+    <PageWrapper>
+      <div>
+        <PageTitle title="로그인" />
+        <StyledForm>
+          <InputOfForm
+            name="email"
+            value={inputValue.email}
+            message={inputMessage.email}
+            placeholder="이메일"
+            onChange={onChangeHandler}
+            onBlur={onBlurHandler}
+            variant={inputVariants.email}
+          />
+          <InputOfForm
+            type="password"
+            name="password"
+            value={inputValue.password}
+            message={inputMessage.password}
+            placeholder="비밀번호"
+            onChange={onChangeHandler}
+            onBlur={onBlurHandler}
+            variant={inputVariants.password}
+          />
+        </StyledForm>
+      </div>
+      <BottonWrapper>
+        <Button
+          label="회원가입"
+          variant={isAblueToSignIn ? 'default' : 'disabled'}
+          onClick={requestSignIn}
         />
-        <InputOfForm
-          type="password"
-          name="password"
-          value={inputValue.password}
-          message={inputMessage.password}
-          placeholder="비밀번호"
-          onChange={onChangeHandler}
-          onBlur={onBlurHandler}
-        />
-        <input type="submit" value="로그인" disabled={!isAblueToSignIn} />
-      </StyledForm>
-    </div>
+        <GuidMsg>
+          아직 계정이 없으신가요? <Link to="/signup">가입하기</Link>
+        </GuidMsg>
+      </BottonWrapper>
+    </PageWrapper>
   );
 };
