@@ -1,6 +1,8 @@
 import { createGlobalStyle, css } from 'styled-components';
 import reset from 'styled-reset';
 
+import theme from './theme';
+
 const styles = css``;
 
 const GlobalStyle = createGlobalStyle`
@@ -12,6 +14,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
 		font-family: 'Pretendard', sans-serif;
+    color: ${theme.colors.textMain}
 	}
 `;
 

@@ -33,15 +33,15 @@ export class HttpClient {
     return this.client.get(url, config);
   }
 
-  post(url: string, data?: data, config?: AxiosRequestConfig) {
+  post(url: string, data?: Record<string, any>, config?: AxiosRequestConfig) {
     return this.client.post(url, data, config);
   }
 
-  put(url: string, config: AxiosRequestConfig) {
-    return this.client.put(url, config);
+  put(url: string, data?: Record<string, any>, config?: AxiosRequestConfig) {
+    return this.client.put(url, data, config);
   }
 
-  delete(url: string, config?: AxiosRequestConfig) {
-    return this.client.delete(url, config);
+  delete(url: string, data?: Record<string, any>, config?: AxiosRequestConfig) {
+    return this.client.delete(url, data, config);
   }
 }

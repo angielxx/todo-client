@@ -12,4 +12,6 @@ export const PageWrapper = ({ children }: Props) => {
 const StyledWrapper = styled.div`
   padding: 24px;
   box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
 `;

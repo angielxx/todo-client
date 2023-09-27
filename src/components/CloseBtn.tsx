@@ -21,9 +21,9 @@ const ClostBtnWrapper = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  right: 0;
+  right: 24px;
 
   svg {
-    fill: darkblue;
+    fill: ${({ theme }) => theme.colors.textMain};
   }
 `;

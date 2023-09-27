@@ -17,12 +17,20 @@ export class TodoService {
     const {
       data: { todos },
     } = await this.httpClient.get(`/todos?date=${date}`);
-    console.log(todos);
     return todos;
   }
 
   async createTodo(data: Omit<TodoData, 'todoId'>) {
     const response = await this.httpClient.post('/todos', data);
     return response.data;
+  }
+
+  async updateTodo(data: TodoData) {
+    const response = await this.httpClient.put(`/todos/${data.todoId}`, data);
+    return response.data.todo;
+  }
+
+  async deleteTodo(todoId: number) {
+    return await this.httpClient.delete(`/todos/${todoId}`);
   }
 }
