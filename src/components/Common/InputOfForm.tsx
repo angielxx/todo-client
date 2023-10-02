@@ -1,7 +1,6 @@
 import React from 'react';
 import styled, { css, RuleSet } from 'styled-components';
-
-import { Input, InputVariantsType } from './Input';
+import { Input, InputVariantsType } from '..';
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;

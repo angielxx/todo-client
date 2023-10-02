@@ -1,15 +1,12 @@
 import { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 
-import { useTodoStore } from '@/stores/useTodoStore';
-import { CloseBtn } from '../CloseBtn';
-import { DateBtn, DateCalendarBtn, Input } from '..';
-import { useTodoForm } from '@/hooks';
-import { Button } from '../Button';
-import { useTodoQuery } from '@/hooks/useTodoQuery';
+import { useTodoFormStore } from '@/stores/useTodoFormStore';
+import { Button, CloseBtn, DateBtn, DateCalendarBtn, Input } from '..';
+import { useTodoForm, useTodoQuery } from '@/hooks';
 
-export const AddTodoForm = () => {
-  const { hideForm } = useTodoStore();
+export const TodoForm = () => {
+  const { hideForm, todo, resetFormStore, isEditMode } = useTodoFormStore();
 
   const {
     title,
@@ -19,9 +16,9 @@ export const AddTodoForm = () => {
     chooseDate,
     onChangeHandler,
     resetForm,
-  } = useTodoForm();
+  } = useTodoForm(todo);
 
-  const { createTodoMutation } = useTodoQuery();
+  const { createTodoMutation, updateTodoMutation } = useTodoQuery(todo);
 
   const requestCreateTodo: MouseEventHandler = async (e) => {
     e.preventDefault();
@@ -36,11 +33,36 @@ export const AddTodoForm = () => {
     hideForm();
   };
 
+  const requestUpdateTodo: MouseEventHandler = async (e) => {
+    e.preventDefault();
+
+    if (!todo) return;
+
+    updateTodoMutation({
+      todoId: todo.todoId,
+      title,
+      date,
+      categoryId: null,
+      isCompleted: todo.isCompleted,
+    });
+
+    resetForm();
+    hideForm();
+  };
+
+  const submitHandler = todo ? requestUpdateTodo : requestCreateTodo;
+
+  const closeAndResetForm = () => {
+    resetFormStore();
+    resetForm();
+    hideForm();
+  };
+
   return (
     <FormWrapper>
       <div className="title">
-        <p>할 일 추가</p>
-        <CloseBtn onClick={hideForm} />
+        <p>{isEditMode ? '할 일 수정' : '할 일 추가'}</p>
+        <CloseBtn onClick={closeAndResetForm} />
       </div>
       <StyledForm>
         <Input
@@ -68,8 +90,8 @@ export const AddTodoForm = () => {
       </StyledForm>
       <Button
         label="입력완료"
-        variant={isAbleToSubmit ? 'default' : 'disabled'}
-        onClick={requestCreateTodo}
+        variant={isAbleToSubmit ? 'active' : 'disabled'}
+        onClick={submitHandler}
       />
     </FormWrapper>
   );
@@ -80,7 +102,6 @@ const FormWrapper = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
-  border: 1px solid red;
   padding: 24px;
   box-sizing: border-box;
   border-top-right-radius: 12px;
@@ -89,6 +110,7 @@ const FormWrapper = styled.div`
   flex-direction: column;
   gap: 24px;
   background-color: white;
+  z-index: 21;
 
   .title {
     display: flex;

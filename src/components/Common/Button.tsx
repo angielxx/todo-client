@@ -7,8 +7,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export const Button = ({
-  variant = 'default',
-  btnSize = 'small',
+  variant = 'active',
+  btnSize = 'large',
   label,
   ...rest
 }: ButtonProps) => {
@@ -24,7 +24,7 @@ export const Button = ({
   );
 };
 
-type ButtonVariantsType = 'disabled' | 'default';
+type ButtonVariantsType = 'disabled' | 'active' | 'default';
 
 type ButtonSizeType = 'small' | 'medium' | 'large';
 
@@ -38,6 +38,7 @@ const StyledButton = styled.button<{
   border-radius: 12px;
 
   ${({ $variant }) => TYPE_VARIANTS[$variant]}
+  ${({ $btnSize }) => SIZE_VARIANTS[$btnSize]}
 `;
 
 const TYPE_VARIANTS: { [key in ButtonVariantsType]: RuleSet } = {
@@ -45,9 +46,26 @@ const TYPE_VARIANTS: { [key in ButtonVariantsType]: RuleSet } = {
     background-color: ${({ theme }) => theme.colors.disabled};
     color: ${({ theme }) => theme.colors.textDisabled};
   `,
-  default: css`
+  active: css`
     cursor: pointer;
     background-color: ${({ theme }) => theme.colors.main};
     color: white;
+  `,
+  default: css`
+    cursor: pointer;
+    background-color: ${({ theme }) => theme.colors.disabled};
+    color: ${({ theme }) => theme.colors.fontMain};
+  `,
+};
+
+const SIZE_VARIANTS: { [key in ButtonSizeType]: RuleSet } = {
+  small: css`
+    height: 32px;
+  `,
+  medium: css`
+    height: 40px;
+  `,
+  large: css`
+    height: 48px;
   `,
 };

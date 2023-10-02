@@ -2,9 +2,8 @@ import { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 
-import { InputOfForm, PageTitle } from '@/components';
+import { Button, InputOfForm, PageTitle } from '@/components';
 import { useAuthForm, useAuthContext } from '@/hooks';
-import { Button } from '@/components/Button';
 import { Link } from 'react-router-dom';
 import { CustomError } from '@/types/error';
 
@@ -53,7 +52,7 @@ export const SignUp = () => {
   const goToSignin = () => navigate('/signin');
 
   return (
-    <PageWrapper>
+    <AuthPageWrapper>
       <div>
         <PageTitle title="회원가입" />
         <StyledForm>
@@ -102,14 +101,14 @@ export const SignUp = () => {
       <BottonWrapper>
         <Button
           label="회원가입"
-          variant={isAblueToSignUp ? 'default' : 'disabled'}
+          variant={isAblueToSignUp ? 'active' : 'disabled'}
           onClick={requestSignUp}
         />
         <GuidMsg>
           이미 게정이 있으신가요? <Link to="/signin">로그인하기</Link>
         </GuidMsg>
       </BottonWrapper>
-    </PageWrapper>
+    </AuthPageWrapper>
   );
 };
 
@@ -132,7 +131,7 @@ export const GuidMsg = styled.p`
   }
 `;
 
-export const PageWrapper = styled.div`
+export const AuthPageWrapper = styled.div`
   padding: 24px;
   box-sizing: border-box;
   padding-top: 20vh;

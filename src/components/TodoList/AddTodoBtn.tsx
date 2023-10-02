@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-import { useTodoStore } from '@/stores/useTodoStore';
+import { useTodoFormStore } from '@/stores/useTodoFormStore';
 
 export const AddTodoBtn = () => {
-  const { showForm } = useTodoStore();
+  const { showForm } = useTodoFormStore();
 
   const showTodoForm = () => showForm();
 

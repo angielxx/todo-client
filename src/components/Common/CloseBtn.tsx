@@ -22,6 +22,7 @@ const ClostBtnWrapper = styled.div`
   align-items: center;
   position: absolute;
   right: 24px;
+  cursor: pointer;
 
   svg {
     fill: ${({ theme }) => theme.colors.textMain};

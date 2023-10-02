@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router';
 
 import { InputOfForm, PageTitle } from '@/components';
-import { BottonWrapper, GuidMsg, PageWrapper, StyledForm } from '.';
+import { BottonWrapper, GuidMsg, StyledForm, AuthPageWrapper } from '.';
 import { useAuthContext, useAuthForm } from '@/hooks';
 import { MouseEventHandler } from 'react';
 import { CustomError } from '@/types/error';
-import { Button } from '@/components/Button';
+import { Button } from '@/components/Common/Button';
 import { Link } from 'react-router-dom';
 
 export const SignIn = () => {
@@ -57,7 +57,7 @@ export const SignIn = () => {
   const goToTodo = () => navigate('/todo');
 
   return (
-    <PageWrapper>
+    <AuthPageWrapper>
       <div>
         <PageTitle title="로그인" />
         <StyledForm>
@@ -85,13 +85,13 @@ export const SignIn = () => {
       <BottonWrapper>
         <Button
           label="회원가입"
-          variant={isAblueToSignIn ? 'default' : 'disabled'}
+          variant={isAblueToSignIn ? 'active' : 'disabled'}
           onClick={requestSignIn}
         />
         <GuidMsg>
           아직 계정이 없으신가요? <Link to="/signup">가입하기</Link>
         </GuidMsg>
       </BottonWrapper>
-    </PageWrapper>
+    </AuthPageWrapper>
   );
 };
