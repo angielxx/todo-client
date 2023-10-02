@@ -1,19 +1,19 @@
 import {
   AddTodoBtn,
-  AddTodoForm,
+  TodoForm,
   DateTitle,
   PageWrapper,
   TodoList,
   WeeklyCalendar,
 } from '@/components';
-import { useTodoStore } from '@/stores/useTodoStore';
+import { useTodoFormStore } from '@/stores/useTodoFormStore';
 
 export const Todo = () => {
-  const { showTodoForm } = useTodoStore();
+  const { showTodoForm } = useTodoFormStore();
 
   return (
     <PageWrapper>
-      {showTodoForm && <AddTodoForm />}
+      {showTodoForm && <TodoForm />}
       {!showTodoForm && <AddTodoBtn />}
       <DateTitle />
       <WeeklyCalendar />

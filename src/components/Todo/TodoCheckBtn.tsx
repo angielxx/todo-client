@@ -2,7 +2,7 @@ import { MouseEventHandler } from 'react';
 import styled, { RuleSet, css } from 'styled-components';
 
 import { TodoData } from '@/types/todoData';
-import { useTodoQuery } from '@/hooks/useTodoQuery';
+import { useTodoQuery } from '@/hooks';
 
 interface Props {
   todo: TodoData;

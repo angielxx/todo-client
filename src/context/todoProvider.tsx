@@ -2,12 +2,14 @@ import { ReactElement, createContext, useState } from 'react';
 
 import { TodoService } from '@/apis/TodoService';
 import { TodoData } from '@/types/todoData';
+import { AxiosResponse } from 'axios';
 
 type TodoDispatch = {
   getTodos: () => void;
   getTodoByDate: (date: string) => Promise<TodoData[]>;
   createTodo: (data: Omit<TodoData, 'todoId'>) => Promise<TodoData>;
   updateTodo: (data: TodoData) => Promise<TodoData>;
+  deleteTodo: (todoId: number) => Promise<AxiosResponse>;
   saveTodos: (todos: TodoData[]) => void;
 };
 
@@ -37,6 +39,7 @@ export const TodoProvider = ({ children, todoService }: TodoProps) => {
     getTodoByDate: todoService.getTodoByDate.bind(todoService),
     createTodo: todoService.createTodo.bind(todoService),
     updateTodo: todoService.updateTodo.bind(todoService),
+    deleteTodo: todoService.deleteTodo.bind(todoService),
     saveTodos,
   };
 

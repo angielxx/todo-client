@@ -1,4 +1,6 @@
+import { TodoData } from '@/types/todoData';
 import { convertDateToString } from '@/utils/convertDateToString';
+import { getDateBtnType } from '@/utils/getDateBtnType';
 import { getToday } from '@/utils/getToday';
 import { ChangeEvent, useState } from 'react';
 
@@ -7,14 +9,17 @@ const tomorrow = convertDateToString(
   new Date(getToday().getTime() + 1000 * 60 * 60 * 24)
 );
 
-type DateBtnType = 'today' | 'tomorrow' | 'calendar';
+export type DateBtnType = 'today' | 'tomorrow' | 'calendar';
 
-export const useTodoForm = () => {
-  const [title, setTitle] = useState<string>('');
-  const [date, setDate] = useState<string>(today); // 'yyyy-mm-dd'
-  const [selectedDateBtnType, setSelectedDateBtnType] =
-    useState<DateBtnType>('today');
-  const [isAbleToSubmit, setIsAbleToSubmit] = useState<boolean>(false);
+export const useTodoForm = (todo?: TodoData | null) => {
+  const [title, setTitle] = useState<string>(todo ? todo.title : '');
+  const [date, setDate] = useState<string>(todo ? todo.date : today); // 'yyyy-mm-dd'
+  const [selectedDateBtnType, setSelectedDateBtnType] = useState<DateBtnType>(
+    todo ? getDateBtnType(todo?.date) : 'today'
+  );
+  const [isAbleToSubmit, setIsAbleToSubmit] = useState<boolean>(
+    todo ? todo.title.trim() !== '' : false
+  );
 
   const chooseDate = (dateType: DateBtnType, selectedDate?: string) => {
     if (dateType === 'today') {

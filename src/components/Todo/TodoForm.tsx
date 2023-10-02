@@ -1,15 +1,14 @@
 import { MouseEventHandler } from 'react';
 import styled from 'styled-components';
 
-import { useTodoStore } from '@/stores/useTodoStore';
+import { useTodoFormStore } from '@/stores/useTodoFormStore';
 import { CloseBtn } from '../CloseBtn';
 import { DateBtn, DateCalendarBtn, Input } from '..';
-import { useTodoForm } from '@/hooks';
+import { useTodoForm, useTodoQuery } from '@/hooks';
 import { Button } from '../Button';
-import { useTodoQuery } from '@/hooks/useTodoQuery';
 
-export const AddTodoForm = () => {
-  const { hideForm } = useTodoStore();
+export const TodoForm = () => {
+  const { hideForm, todo, resetFormStore, isEditMode } = useTodoFormStore();
 
   const {
     title,
@@ -19,9 +18,9 @@ export const AddTodoForm = () => {
     chooseDate,
     onChangeHandler,
     resetForm,
-  } = useTodoForm();
+  } = useTodoForm(todo);
 
-  const { createTodoMutation } = useTodoQuery();
+  const { createTodoMutation, updateTodoMutation } = useTodoQuery(todo);
 
   const requestCreateTodo: MouseEventHandler = async (e) => {
     e.preventDefault();
@@ -36,11 +35,36 @@ export const AddTodoForm = () => {
     hideForm();
   };
 
+  const requestUpdateTodo: MouseEventHandler = async (e) => {
+    e.preventDefault();
+
+    if (!todo) return;
+
+    updateTodoMutation({
+      todoId: todo.todoId,
+      title,
+      date,
+      categoryId: null,
+      isCompleted: todo.isCompleted,
+    });
+
+    resetForm();
+    hideForm();
+  };
+
+  const submitHandler = todo ? requestUpdateTodo : requestCreateTodo;
+
+  const closeAndResetForm = () => {
+    resetFormStore();
+    resetForm();
+    hideForm();
+  };
+
   return (
     <FormWrapper>
       <div className="title">
-        <p>할 일 추가</p>
-        <CloseBtn onClick={hideForm} />
+        <p>{isEditMode ? '할 일 수정' : '할 일 추가'}</p>
+        <CloseBtn onClick={closeAndResetForm} />
       </div>
       <StyledForm>
         <Input
@@ -69,7 +93,7 @@ export const AddTodoForm = () => {
       <Button
         label="입력완료"
         variant={isAbleToSubmit ? 'default' : 'disabled'}
-        onClick={requestCreateTodo}
+        onClick={submitHandler}
       />
     </FormWrapper>
   );

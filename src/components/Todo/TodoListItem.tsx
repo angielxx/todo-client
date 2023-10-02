@@ -2,6 +2,7 @@ import styled, { RuleSet, css } from 'styled-components';
 
 import { TodoData } from '@/types/todoData';
 import { TodoCheckBtn } from './TodoCheckBtn';
+import { TodoListItemContent } from './TodoListItemContent';
 
 interface Props {
   todo: TodoData;
@@ -13,8 +14,7 @@ export const TodoListItem = ({ todo }: Props) => {
   return (
     <StyledItem $isCompleted={isCompleted}>
       <TodoCheckBtn todo={todo} />
-      <p>{todo.title}</p>
-      {/* <CategoryChip /> */}
+      <TodoListItemContent todo={todo} />
     </StyledItem>
   );
 };
@@ -28,6 +28,7 @@ const StyledItem = styled.div<{ $isCompleted: boolean }>`
   display: flex;
   align-items: center;
   gap: 16px;
+  cursor: pointer;
 
   ${({ $isCompleted }) =>
     $isCompleted ? TYPE_VARIANTS.completed : TYPE_VARIANTS.notCompleted}
