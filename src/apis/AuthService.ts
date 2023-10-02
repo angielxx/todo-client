@@ -1,10 +1,13 @@
+import { TokenStorage } from '.';
 import { HttpClient } from './HttpClient';
 
 export class AuthService {
   private httpClient: HttpClient;
+  private tokenStorage: TokenStorage;
 
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient, tokenStorage: TokenStorage) {
     this.httpClient = httpClient;
+    this.tokenStorage = tokenStorage;
   }
 
   async signup(email: string, password: string) {
@@ -18,6 +21,12 @@ export class AuthService {
     return await this.httpClient.post('/auth/signin', {
       email,
       password,
+    });
+  }
+
+  async refreshToken() {
+    return await this.httpClient.post('/auth/refreshToken', {
+      refresh_token: localStorage.getItem('refresh_token'),
     });
   }
 }

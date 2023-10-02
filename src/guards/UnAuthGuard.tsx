@@ -6,7 +6,7 @@ interface Props {
   children: ReactElement;
 }
 
-export const AuthGuard = ({ children }: Props) => {
+export const UnAuthGuard = ({ children }: Props) => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
   const navigate = useNavigate();
@@ -16,8 +16,8 @@ export const AuthGuard = ({ children }: Props) => {
   } = useAuthContext();
 
   useEffect(() => {
-    if (!checkToken()) {
-      navigate('/signin');
+    if (checkToken()) {
+      navigate('/todo');
     } else {
       setIsChecked(true);
     }
