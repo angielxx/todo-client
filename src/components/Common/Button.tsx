@@ -34,7 +34,6 @@ const StyledButton = styled.button<{
 }>`
   border: none;
   height: 48px;
-  width: 100%;
   border-radius: 12px;
 
   ${({ $variant }) => TYPE_VARIANTS[$variant]}
@@ -61,11 +60,14 @@ const TYPE_VARIANTS: { [key in ButtonVariantsType]: RuleSet } = {
 const SIZE_VARIANTS: { [key in ButtonSizeType]: RuleSet } = {
   small: css`
     height: 32px;
+    width: fit-content;
   `,
   medium: css`
     height: 40px;
+    width: fit-content;
   `,
   large: css`
     height: 48px;
+    width: 100%;
   `,
 };

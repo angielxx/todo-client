@@ -1,32 +1,45 @@
-import { TodoData } from '@/types/todoData';
 import { Button, CloseBtn } from '..';
 import styled from 'styled-components';
+import { ReactNode } from 'react';
 
 interface Props {
-  todo: TodoData;
+  content: ReactNode;
+  cancelLabel?: string;
+  confirmLabel?: string;
   onCancel: () => void;
-  onDelete: () => void;
+  onConfirm: () => void;
 }
 
-export const DeleteModal = ({ todo, onDelete, onCancel, ...rest }: Props) => {
+export const DeleteModal = ({
+  content,
+  cancelLabel = '취소',
+  confirmLabel = '확인',
+  onConfirm,
+  onCancel,
+  ...rest
+}: Props) => {
   return (
     <ModalContainer {...rest}>
       <div>
         <CloseBtn onClick={onCancel} />
       </div>
       <div>
-        <p>
-          <span>{todo.title}</span>을(를) 정말 삭제하시겠습니까?
-        </p>
+        <p>{content}</p>
       </div>
       <div>
         <Button
-          label="취소"
+          label={cancelLabel}
           btnSize="medium"
           variant="default"
           onClick={onCancel}
+          style={{ width: '100%' }}
         />
-        <Button label="삭제" btnSize="medium" onClick={onDelete} />
+        <Button
+          label={confirmLabel}
+          btnSize="medium"
+          onClick={onConfirm}
+          style={{ width: '100%' }}
+        />
       </div>
     </ModalContainer>
   );

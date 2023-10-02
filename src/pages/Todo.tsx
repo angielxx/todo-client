@@ -1,3 +1,7 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import styled from 'styled-components';
+
 import {
   AddTodoBtn,
   TodoForm,
@@ -8,14 +12,15 @@ import {
   Button,
 } from '@/components';
 import { ModalWrapper } from '@/components/Modal';
+import { DeleteModal } from '@/components/Modal/DeleteModal';
 import { useAuthContext } from '@/hooks';
 import { useTodoFormStore } from '@/stores/useTodoFormStore';
 import { CustomError } from '@/types/error';
-import { MouseEventHandler } from 'react';
-import { useNavigate } from 'react-router';
 
 export const Todo = () => {
   const { showTodoForm, hideForm } = useTodoFormStore();
+
+  const [showLogoutModal, setShowLogoutModal] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -23,9 +28,7 @@ export const Todo = () => {
     dispatch: { logout, onLogoutSuccess },
   } = useAuthContext();
 
-  const requestLogout: MouseEventHandler = async (e) => {
-    e.preventDefault();
-
+  const requestLogout = async () => {
     try {
       await logout();
 
@@ -51,18 +54,44 @@ export const Todo = () => {
     }
   };
 
+  const closeLogoutModal = () => setShowLogoutModal(false);
+
+  const openLogoutModal = () => setShowLogoutModal(true);
+
   return (
     <PageWrapper>
+      {showLogoutModal && (
+        <ModalWrapper closeModal={closeLogoutModal}>
+          <DeleteModal
+            content={<p>정말 로그아웃 하시겠습니까?</p>}
+            confirmLabel="로그아웃"
+            onCancel={closeLogoutModal}
+            onConfirm={requestLogout}
+          />
+        </ModalWrapper>
+      )}
       {showTodoForm && (
         <ModalWrapper closeModal={hideForm}>
           <TodoForm />
         </ModalWrapper>
       )}
       {!showTodoForm && <AddTodoBtn />}
-      <Button label="로그아웃" btnSize="small" onClick={requestLogout} />
+      <LogoutContainer>
+        <Button
+          label="로그아웃"
+          btnSize="small"
+          variant="default"
+          onClick={openLogoutModal}
+        />
+      </LogoutContainer>
       <DateTitle />
       <WeeklyCalendar />
       <TodoList />
     </PageWrapper>
   );
 };
+
+const LogoutContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
