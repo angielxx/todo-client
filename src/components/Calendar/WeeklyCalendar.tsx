@@ -1,10 +1,9 @@
+import { useCallback } from 'react';
 import styled from 'styled-components';
 
 import { getWeekInfo } from '@/utils/getWeekInfo';
-import { WeeklyCalendarItem } from '.';
 import { useCalendarStore } from '@/stores/useCalendarStore';
-import { OffsetBtn } from './OffsetBtn';
-import { useCallback } from 'react';
+import { WeeklyCalendarItem, WeeklyOffsetBtn } from '.';
 
 export const WeeklyCalendar = () => {
   const { selectedDate, offset, forwardOffset, backwardOffset } =
@@ -20,7 +19,7 @@ export const WeeklyCalendar = () => {
 
   return (
     <Wrapper>
-      <OffsetBtn type="backward" onClick={backwardOffset} />
+      <WeeklyOffsetBtn type="backward" onClick={backwardOffset} />
       <WeekWrapper>
         <RowWrapper>
           {week.map((day) => (
@@ -39,7 +38,7 @@ export const WeeklyCalendar = () => {
           ))}
         </RowWrapper>
       </WeekWrapper>
-      <OffsetBtn type="forward" onClick={forwardOffset} />
+      <WeeklyOffsetBtn type="forward" onClick={forwardOffset} />
     </Wrapper>
   );
 };

@@ -5,7 +5,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   type: 'backward' | 'forward';
 }
 
-export const OffsetBtn = ({ type, ...rest }: Props) => {
+export const WeeklyOffsetBtn = ({ type, ...rest }: Props) => {
   return (
     <BtnWrapper {...rest}>
       {type === 'forward' && (
