@@ -32,12 +32,12 @@ export const SignIn = () => {
     try {
       const { email, password } = inputValue;
       const {
-        data: { access_token },
+        data: { access_token, refresh_token },
       } = await signin(email, password);
 
       alert('로그인에 성공했습니다.');
 
-      onLoginSuccess(access_token);
+      onLoginSuccess(access_token, refresh_token);
 
       goToTodo();
     } catch (err: unknown) {

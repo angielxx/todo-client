@@ -6,7 +6,8 @@ import { AuthService, TokenStorage } from '@/apis';
 type AuthDispatch = {
   signup: (email: string, password: string) => Promise<AxiosResponse>;
   signin: (email: string, password: string) => Promise<AxiosResponse>;
-  onLoginSuccess: (token: string) => void;
+  onLoginSuccess: (access_token: string, refresh_token: string) => void;
+  checkToken: () => boolean;
 };
 
 type AuthState = {
@@ -36,12 +37,24 @@ export const AuthProvider = ({
   const dispatch: AuthDispatch = {
     signup: authService.signup.bind(authService),
     signin: authService.signin.bind(authService),
+    checkToken: checkToken,
     onLoginSuccess: onLoginSuccess,
   };
 
-  function onLoginSuccess(token: string) {
+  function onLoginSuccess(access_token: string, refresh_token: string) {
     setIsLoggedIn(true);
-    tokenStorage.save(token);
+    tokenStorage.save(access_token, refresh_token);
+  }
+
+  function refreshToken() {
+    const response = authService.refreshToken.bind(authService);
+    console.log('토큰 리프레시 응답', response);
+  }
+
+  function checkToken() {
+    const token = tokenStorage.get();
+    if (token) return true;
+    else return false;
   }
 
   return (

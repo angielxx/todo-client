@@ -1,8 +1,15 @@
+import { AuthGuard } from '@/guards/AuthGuard';
 import { Todo } from '@/pages/Todo';
+import { Outlet } from 'react-router';
 
 export const todoRouter = [
   {
-    path: '/todo',
-    element: <Todo />,
+    path: '/',
+    element: (
+      <AuthGuard>
+        <Outlet />
+      </AuthGuard>
+    ),
+    children: [{ path: '/todo', element: <Todo /> }],
   },
 ];

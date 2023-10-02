@@ -2,12 +2,14 @@ import axios, {
   AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
+  AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
+
 import { TokenStorage } from '.';
 
 const createClient = (baseURL: string, tokenStorage: TokenStorage) => {
-  const axiosInstance = axios.create({ baseURL });
+  const axiosInstance = axios.create({ baseURL, withCredentials: true });
 
   axiosInstance.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
@@ -15,6 +17,37 @@ const createClient = (baseURL: string, tokenStorage: TokenStorage) => {
       return config;
     },
     (error: AxiosError) => {
+      return Promise.reject(error);
+    }
+  );
+
+  axiosInstance.interceptors.response.use(
+    (response: AxiosResponse) => {
+      return response;
+    },
+    async (error: AxiosError | Error) => {
+      const _err = error as unknown as AxiosError;
+      const { response } = _err;
+      const originalRequest = _err.config as InternalAxiosRequestConfig;
+
+      if (response && response.status === 401) {
+        try {
+          const {
+            data: { access_token, refresh_token },
+          } = await axiosInstance.post('/auth/refreshToken', {
+            refresh_token: localStorage.getItem('refresh_token'),
+          });
+
+          tokenStorage.save(access_token, refresh_token);
+
+          originalRequest.headers.Authorization = 'Bearer ' + access_token;
+
+          return axios(originalRequest);
+        } catch (refreshError) {
+          return Promise.reject(refreshError);
+        }
+      }
+
       return Promise.reject(error);
     }
   );
