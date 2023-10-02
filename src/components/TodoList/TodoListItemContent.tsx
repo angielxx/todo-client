@@ -43,9 +43,13 @@ export const TodoListItemContent = ({ todo }: Props) => {
       {showDeleteModal && (
         <ModalWrapper closeModal={() => setShowDeleteModal(false)}>
           <DeleteModal
-            todo={todo}
             onCancel={() => setShowDeleteModal(false)}
-            onDelete={clickDeleteBtnHandler}
+            onConfirm={clickDeleteBtnHandler}
+            content={
+              <p>
+                <span>{todo.title}</span>을(를) 정말 삭제하시겠습니까?
+              </p>
+            }
           />
         </ModalWrapper>
       )}

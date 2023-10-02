@@ -22,5 +22,7 @@ export class TokenStorage {
   remove() {
     this.access_token = null;
     this.refresh_token = null;
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
   }
 }
