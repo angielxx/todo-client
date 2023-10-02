@@ -16,10 +16,25 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
+
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./*"],
+      "@apis/*": ["apis/*"],
+      "@components/*": ["components/*"],
+      "@context/*": ["context/*"],
+      "@guards/*": ["guards/*"],
+      "@hooks/*": ["hooks/*"],
+      "@pages/*": ["pages/*"],
+      "@routes/*": ["routes/*"],
+      "@types/*": ["types/*"],
+      "@utils/*": ["utils/*"]
+    }
   },
+
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
