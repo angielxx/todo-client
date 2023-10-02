@@ -85,7 +85,7 @@ export const SignIn = () => {
       <BottonWrapper>
         <Button
           label="회원가입"
-          variant={isAblueToSignIn ? 'default' : 'disabled'}
+          variant={isAblueToSignIn ? 'active' : 'disabled'}
           onClick={requestSignIn}
         />
         <GuidMsg>

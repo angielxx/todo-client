@@ -101,7 +101,7 @@ export const SignUp = () => {
       <BottonWrapper>
         <Button
           label="회원가입"
-          variant={isAblueToSignUp ? 'default' : 'disabled'}
+          variant={isAblueToSignUp ? 'active' : 'disabled'}
           onClick={requestSignUp}
         />
         <GuidMsg>

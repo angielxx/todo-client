@@ -90,7 +90,7 @@ export const TodoForm = () => {
       </StyledForm>
       <Button
         label="입력완료"
-        variant={isAbleToSubmit ? 'default' : 'disabled'}
+        variant={isAbleToSubmit ? 'active' : 'disabled'}
         onClick={submitHandler}
       />
     </FormWrapper>
@@ -102,7 +102,6 @@ const FormWrapper = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
-  border: 1px solid red;
   padding: 24px;
   box-sizing: border-box;
   border-top-right-radius: 12px;
@@ -111,6 +110,7 @@ const FormWrapper = styled.div`
   flex-direction: column;
   gap: 24px;
   background-color: white;
+  z-index: 21;
 
   .title {
     display: flex;

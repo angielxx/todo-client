@@ -6,14 +6,19 @@ import {
   TodoList,
   WeeklyCalendar,
 } from '@/components';
+import { ModalWrapper } from '@/components/Modal';
 import { useTodoFormStore } from '@/stores/useTodoFormStore';
 
 export const Todo = () => {
-  const { showTodoForm } = useTodoFormStore();
+  const { showTodoForm, hideForm } = useTodoFormStore();
 
   return (
     <PageWrapper>
-      {showTodoForm && <TodoForm />}
+      {showTodoForm && (
+        <ModalWrapper closeModal={hideForm}>
+          <TodoForm />
+        </ModalWrapper>
+      )}
       {!showTodoForm && <AddTodoBtn />}
       <DateTitle />
       <WeeklyCalendar />
