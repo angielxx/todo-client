@@ -75,6 +75,6 @@ export class HttpClient {
   }
 
   delete(url: string, data?: Record<string, any>, config?: AxiosRequestConfig) {
-    return this.client.delete(url, data, config);
+    return this.client.delete(url, config);
   }
 }
