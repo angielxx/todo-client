@@ -211,10 +211,12 @@ $ yarn run dev
 ### 할 일 추가
 
 - '오늘' 날짜에 할 일 추가
-  <img src="https://github.com/Voluntain-SKKU/Voluntain-2nd/assets/103434451/5d17fbb6-0e7d-4f42-87ed-19af1fd7cd25" width="400"/>
+
+<img src="https://github.com/Voluntain-SKKU/Voluntain-2nd/assets/103434451/5d17fbb6-0e7d-4f42-87ed-19af1fd7cd25" width="400"/>
 
 - '내일' 날짜에 할 일 추가
-  <img src="https://github.com/Voluntain-SKKU/Voluntain-2nd/assets/103434451/6f4552e2-035c-4cf8-9091-3757cfd7f9b8" width="400"/>
+
+<img src="https://github.com/Voluntain-SKKU/Voluntain-2nd/assets/103434451/6f4552e2-035c-4cf8-9091-3757cfd7f9b8" width="400"/>
 
 <!-- - 선택한 날짜에 할 일 추가
   <img src="https://github.com/Voluntain-SKKU/Voluntain-2nd/assets/103434451/5d17fbb6-0e7d-4f42-87ed-19af1fd7cd25" width="400"/> -->
@@ -222,23 +224,27 @@ $ yarn run dev
 ### 할 일 조회
 
 - 날짜 별로 할 일 조회
-  <img src="https://github.com/Voluntain-SKKU/Voluntain-2nd/assets/103434451/be4ca414-9811-42ee-8584-3724e74efee4" width="400"/>
+
+<img src="https://github.com/Voluntain-SKKU/Voluntain-2nd/assets/103434451/be4ca414-9811-42ee-8584-3724e74efee4" width="400"/>
 
 ### 할 일 수정
 
 - 할 일 완료 처리
-  <img src="https://github.com/Voluntain-SKKU/Voluntain-2nd/assets/103434451/f830f2b1-88d9-41b7-b241-71f77d6b6ce4" width="400"/>
+
+<img src="https://github.com/Voluntain-SKKU/Voluntain-2nd/assets/103434451/f830f2b1-88d9-41b7-b241-71f77d6b6ce4" width="400"/>
 
 - 할 일 내용 수정
-  <img src="https://github.com/Voluntain-SKKU/Voluntain-2nd/assets/103434451/3a8710f0-2696-41f1-980d-3ce517c3f0bf" width="400"/>
+
+<img src="https://github.com/Voluntain-SKKU/Voluntain-2nd/assets/103434451/3a8710f0-2696-41f1-980d-3ce517c3f0bf" width="400"/>
 
 - 할 일 날짜 수정
-  <img src="https://github.com/Voluntain-SKKU/Voluntain-2nd/assets/103434451/4f8efb1f-f0d9-413e-b18b-371667971f0c" width="400"/>
+
+<img src="https://github.com/Voluntain-SKKU/Voluntain-2nd/assets/103434451/4f8efb1f-f0d9-413e-b18b-371667971f0c" width="400"/>
 
 ### 할 일 삭제
 
-  <img src="https://github.com/Voluntain-SKKU/Voluntain-2nd/assets/103434451/edfe29db-a83a-4592-8a8b-03d05b38d5da" width="400"/>
+<img src="https://github.com/Voluntain-SKKU/Voluntain-2nd/assets/103434451/edfe29db-a83a-4592-8a8b-03d05b38d5da" width="400"/>
 
 ### 로그아웃
 
-  <img src="https://github.com/Voluntain-SKKU/Voluntain-2nd/assets/103434451/41af1c3d-2cab-45aa-a007-f6c842b446dd" width="400"/>
+<img src="https://github.com/Voluntain-SKKU/Voluntain-2nd/assets/103434451/41af1c3d-2cab-45aa-a007-f6c842b446dd" width="400"/>
